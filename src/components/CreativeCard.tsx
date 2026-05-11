@@ -1,0 +1,36 @@
+import type { CSSProperties } from 'react'
+import type { CreativeItem } from '../data/regions'
+import { useTranslation } from 'react-i18next'
+import '../styles/CreativeCard.css'
+
+interface CreativeCardProps {
+  item: CreativeItem
+  regionColor: string
+  onViewMore: () => void
+}
+
+const typeLabels: Record<NonNullable<CreativeItem['type']>, string> = {
+  artesanato: 'Artesanato',
+  gastronomia: 'Gastronomia',
+  evento: 'Evento',
+}
+
+export default function CreativeCard({ item, regionColor, onViewMore }: CreativeCardProps) {
+  const { t } = useTranslation()
+
+  return (
+    <article className="creative-card" style={{ '--creative-color': regionColor } as CSSProperties}>
+      {item.image && (
+        <img className="creative-card-image" src={item.image} alt={t(item.titleKey)} />
+      )}
+      <div className="creative-card-body">
+        {item.type && <span className="creative-card-type">{typeLabels[item.type]}</span>}
+        <h3>{t(item.titleKey)}</h3>
+        <p>{t(item.descriptionKey)}</p>
+        <button className="view-more-btn" onClick={onViewMore}>
+          {t('btn.viewMore')}
+        </button>
+      </div>
+    </article>
+  )
+}

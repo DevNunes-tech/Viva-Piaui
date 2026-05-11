@@ -1,0 +1,151 @@
+.app {
+  min-height: 100svh;
+  background:
+    radial-gradient(circle at 94% 4%, rgba(209, 91, 38, 0.08), transparent 20rem),
+    linear-gradient(180deg, #f6eee9 0%, #f8f7f5 34%, #f7f6f4 100%);
+  color: #241b18;
+  padding-bottom: 82px;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(247, 246, 244, 0.92);
+  border-bottom: 1px solid rgba(61, 39, 31, 0.08);
+  backdrop-filter: blur(18px);
+}
+
+.header-content {
+  width: min(100%, 1380px);
+  margin: 0 auto;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.brand-mark {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #f25a1d;
+  position: relative;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+
+.brand-mark::before,
+.brand-mark::after,
+.brand-mark span {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #fff7ef;
+}
+
+.brand-mark::before {
+  top: 7px;
+}
+
+.brand-mark span {
+  top: 11px;
+}
+
+.brand-mark::after {
+  top: 15px;
+}
+
+.brand-name {
+  color: #2b211d;
+  font-size: 0.86rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.app-main {
+  width: min(100%, 1380px);
+  margin: 0 auto;
+  padding: 0 20px 34px;
+}
+
+.app-nav {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  width: min(100%, 1380px);
+  margin: 0 auto;
+  padding: 9px max(18px, env(safe-area-inset-left)) calc(10px + env(safe-area-inset-bottom));
+  background: rgba(255, 255, 255, 0.94);
+  border-top: 1px solid #e8ded8;
+  box-shadow: 0 -10px 28px rgba(67, 48, 39, 0.08);
+  left: 50%;
+  transform: translateX(-50%);
+  backdrop-filter: blur(18px);
+}
+
+.nav-btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: #81736b;
+  cursor: pointer;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+  min-height: 48px;
+  font-size: 0.66rem;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.nav-icon {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  font-size: 1.2rem;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.nav-btn.active {
+  color: #c45a2c;
+}
+
+.nav-btn:focus-visible {
+  outline: 2px solid #c45a2c;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+@media (max-width: 640px) {
+  .header-content,
+  .app-main {
+    padding-inline: 14px;
+  }
+
+  .brand-name {
+    display: none;
+  }
+
+  .nav-btn {
+    font-size: 0.58rem;
+  }
+}
