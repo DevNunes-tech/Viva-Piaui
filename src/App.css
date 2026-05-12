@@ -1,25 +1,24 @@
 .app {
   min-height: 100svh;
   background:
-    radial-gradient(circle at 94% 4%, rgba(209, 91, 38, 0.08), transparent 20rem),
-    linear-gradient(180deg, #f6eee9 0%, #f8f7f5 34%, #f7f6f4 100%);
-  color: #241b18;
-  padding-bottom: 82px;
+    radial-gradient(circle at 76% 12%, rgba(24, 119, 63, 0.18), transparent 24rem),
+    linear-gradient(180deg, #f5f8ec 0%, #eef8e0 46%, #e8f4d6 100%);
+  color: #062817;
+  padding-bottom: 76px;
 }
 
 .app-header {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: rgba(247, 246, 244, 0.92);
-  border-bottom: 1px solid rgba(61, 39, 31, 0.08);
+  background: rgba(246, 250, 239, 0.82);
   backdrop-filter: blur(18px);
 }
 
 .header-content {
-  width: min(100%, 1380px);
+  width: min(100%, 1230px);
   margin: 0 auto;
-  padding: 12px 20px;
+  padding: 20px 24px 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -33,49 +32,56 @@
 }
 
 .brand-mark {
-  width: 24px;
-  height: 24px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background: #f25a1d;
+  background: #087233;
   position: relative;
-  overflow: hidden;
   flex: 0 0 auto;
-}
-
-.brand-mark::before,
-.brand-mark::after,
-.brand-mark span {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: #fff7ef;
+  box-shadow: 0 8px 18px rgba(8, 114, 51, 0.16);
 }
 
 .brand-mark::before {
-  top: 7px;
-}
-
-.brand-mark span {
-  top: 11px;
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 10px;
+  width: 15px;
+  height: 11px;
+  border: 2px solid #f7fff1;
+  border-right-color: transparent;
+  border-radius: 80% 10% 80% 10%;
+  transform: rotate(-24deg);
 }
 
 .brand-mark::after {
-  top: 15px;
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 20px;
+  width: 14px;
+  height: 2px;
+  background: #f7fff1;
+  border-radius: 999px;
+  transform: rotate(-28deg);
+}
+
+.brand-mark span {
+  display: none;
 }
 
 .brand-name {
-  color: #2b211d;
-  font-size: 0.86rem;
-  font-weight: 700;
+  color: #041b0c;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.26rem;
+  font-weight: 800;
   white-space: nowrap;
 }
 
 .app-main {
-  width: min(100%, 1380px);
+  width: min(100%, 1230px);
   margin: 0 auto;
-  padding: 0 20px 34px;
+  padding: 0 24px 42px;
 }
 
 .app-nav {
@@ -86,14 +92,12 @@
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 4px;
-  width: min(100%, 1380px);
+  width: 100%;
   margin: 0 auto;
-  padding: 9px max(18px, env(safe-area-inset-left)) calc(10px + env(safe-area-inset-bottom));
-  background: rgba(255, 255, 255, 0.94);
-  border-top: 1px solid #e8ded8;
-  box-shadow: 0 -10px 28px rgba(67, 48, 39, 0.08);
-  left: 50%;
-  transform: translateX(-50%);
+  padding: 8px max(18px, env(safe-area-inset-left)) calc(9px + env(safe-area-inset-bottom));
+  background: rgba(250, 252, 245, 0.94);
+  border-top: 1px solid rgba(20, 92, 45, 0.16);
+  box-shadow: 0 -10px 28px rgba(29, 70, 37, 0.08);
   backdrop-filter: blur(18px);
 }
 
@@ -101,36 +105,122 @@
   appearance: none;
   border: 0;
   background: transparent;
-  color: #81736b;
+  color: #5a6b5b;
   cursor: pointer;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
+  gap: 3px;
   min-width: 0;
   min-height: 48px;
   font-size: 0.66rem;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.15;
 }
 
 .nav-icon {
+  position: relative;
   display: grid;
   place-items: center;
-  width: 24px;
-  height: 24px;
-  font-size: 1.2rem;
-  line-height: 1;
-  font-weight: 700;
+  width: 23px;
+  height: 23px;
+  color: currentColor;
+}
+
+.nav-icon::before,
+.nav-icon::after {
+  content: '';
+  position: absolute;
+  border-color: currentColor;
+}
+
+.nav-icon-home::before {
+  width: 13px;
+  height: 11px;
+  border: 2px solid currentColor;
+  border-top: 0;
+  border-radius: 0 0 4px 4px;
+  bottom: 3px;
+}
+
+.nav-icon-home::after {
+  width: 12px;
+  height: 12px;
+  border-left: 2px solid currentColor;
+  border-top: 2px solid currentColor;
+  transform: rotate(45deg);
+  top: 3px;
+}
+
+.nav-icon-map::before {
+  width: 13px;
+  height: 17px;
+  border: 2px solid currentColor;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+}
+
+.nav-icon-map::after {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.nav-icon-route::before {
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+}
+
+.nav-icon-route::after {
+  width: 8px;
+  height: 8px;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  transform: rotate(135deg);
+}
+
+.nav-icon-spark::before {
+  width: 15px;
+  height: 15px;
+  border: 2px solid currentColor;
+  border-radius: 4px;
+  transform: rotate(18deg);
+}
+
+.nav-icon-spark::after {
+  width: 5px;
+  height: 5px;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  right: 1px;
+  top: 1px;
+}
+
+.nav-icon-palette::before {
+  width: 17px;
+  height: 15px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+}
+
+.nav-icon-palette::after {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: -6px -2px 0 -1px currentColor, 2px -5px 0 -1px currentColor;
 }
 
 .nav-btn.active {
-  color: #c45a2c;
+  color: #057132;
 }
 
 .nav-btn:focus-visible {
-  outline: 2px solid #c45a2c;
+  outline: 2px solid #057132;
   outline-offset: 2px;
   border-radius: 8px;
 }
@@ -138,11 +228,11 @@
 @media (max-width: 640px) {
   .header-content,
   .app-main {
-    padding-inline: 14px;
+    padding-inline: 16px;
   }
 
   .brand-name {
-    display: none;
+    font-size: 1rem;
   }
 
   .nav-btn {

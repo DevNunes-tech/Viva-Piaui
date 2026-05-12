@@ -15,11 +15,11 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home')
 
   const navItems: { page: Page; label: string; icon: string }[] = [
-    { page: 'home', label: t('nav.home'), icon: '⌂' },
-    { page: 'map', label: t('nav.map'), icon: '◇' },
-    { page: 'itinerary', label: t('nav.itinerary'), icon: '☷' },
-    { page: 'ar', label: t('nav.ar'), icon: '▣' },
-    { page: 'creative', label: t('nav.creative'), icon: '□' },
+    { page: 'home', label: t('nav.home'), icon: 'home' },
+    { page: 'map', label: t('nav.map'), icon: 'map' },
+    { page: 'itinerary', label: t('nav.itinerary'), icon: 'route' },
+    { page: 'ar', label: t('nav.ar'), icon: 'spark' },
+    { page: 'creative', label: t('nav.creative'), icon: 'palette' },
   ]
 
   const renderPage = () => {
@@ -63,7 +63,7 @@ export default function App() {
             onClick={() => setCurrentPage(item.page)}
             aria-label={item.label}
           >
-            <span className="nav-icon" aria-hidden="true">{item.icon}</span>
+            <span className={`nav-icon nav-icon-${item.icon}`} aria-hidden="true" />
             <span>{item.label}</span>
           </button>
         ))}

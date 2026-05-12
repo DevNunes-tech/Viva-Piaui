@@ -48,14 +48,14 @@ export const FEATURED_CITIES: CityHighlight[] = [
   {
     id: 'picos',
     name: 'Picos',
-    nickname: 'Capital do Mel e 2º maior entroncamento rodoviário do Nordeste',
+    nickname: 'Capital do Mel e porta de entrada da Capadócia Nordestina',
     region: 'Centro-sul do Piauí',
     section: 'routes',
-    image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Colina_do_3%C2%BA_BEC.jpg?width=900',
-    summary: 'Cidade polo de comércio, produção de mel e convergência de rodovias no semiárido piauiense.',
+    image: 'https://www.picos40graus.com.br/userfiles/images/DSC_1966.JPG',
+    summary: 'Cidade polo de comércio, produção de mel e acesso às formações rochosas da Capadócia Nordestina.',
     details:
-      'Picos se destaca pela localização estratégica no cruzamento de rodovias federais e estaduais. A Prefeitura de Picos registra a cidade como o segundo maior entroncamento rodoviário do Nordeste, e o município também é reconhecido popularmente como Capital do Mel.',
-    tags: ['Mel', 'Rodovias', 'Comércio'],
+      'Picos é conhecida como a porta de entrada para a Capadócia Nordestina. Além do entroncamento rodoviário e da produção de mel, a cidade conecta visitantes a paredões, cânions e paisagens geológicas únicas do sertão.',
+    tags: ['Mel', 'Rodovias', 'Capadócia'],
     sourceLabel: 'Prefeitura de Picos',
     sourceUrl: 'https://www2.picos.pi.gov.br/secretarias/saude/secretaria-de-transito-faz-capacitacao-de-mototaxistas/',
   },
@@ -79,7 +79,7 @@ export const FEATURED_CITIES: CityHighlight[] = [
     nickname: 'Portal do Delta',
     region: 'Litoral piauiense',
     section: 'nature',
-    image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Delta_do_Parna%C3%ADba.jpg?width=900',
+    image: 'https://revistaoeste.com/oestegeral/wp-content/uploads/2025/09/parnaiba-750x375.jpg',
     summary: 'Base urbana para conhecer o Delta do Parnaíba, praias, ilhas e cultura litorânea.',
     details:
       'Parnaíba é uma das principais portas de entrada para o litoral do Piauí e para o Delta do Parnaíba, destino de natureza marcado por rios, ilhas, dunas, manguezais e comunidades tradicionais.',
@@ -107,7 +107,7 @@ export const FEATURED_CITIES: CityHighlight[] = [
     nickname: 'Cidade das Opalas',
     region: 'Serra dos Matões',
     section: 'nature',
-    image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Pedro_II_-_A_Cidade_das_Opalas_%283767131262%29.jpg?width=900',
+    image: 'https://s2-g1.glbimg.com/GJJCOoJYWaJ2NWqV1ZYeph7xsXw=/0x0:512x342/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2021/O/c/AqpXPUSPaxfpYBN3VKYA/mirante-gritador.jpg',
     summary: 'Destino serrano ligado às opalas, ao Festival de Inverno e às cachoeiras.',
     details:
       'Pedro II combina clima de serra, artesanato mineral, música e ecoturismo. A cidade é lembrada pelas opalas, pelo Festival de Inverno e por atrativos naturais como a Cachoeira do Salto Liso.',
@@ -135,7 +135,7 @@ export const FEATURED_CITIES: CityHighlight[] = [
     nickname: 'Princesa do Sul',
     region: 'Sul do Piauí',
     section: 'routes',
-    image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Restaurante_Flutuante.jpg?width=900',
+    image: 'https://cdn.paytour.com.br/assets/images/passeios-2501538/2d1f7c7246206d5136033bc5e575cad6/Floriano_Easy-Resize.com_optimized.webp',
     summary: 'Centro regional às margens do Rio Parnaíba, com comércio, cultura e vida ribeirinha.',
     details:
       'Floriano se destaca como polo regional do sul piauiense, com forte relação com o Rio Parnaíba, serviços, comércio e circulação cultural entre o Piauí e o Maranhão.',

@@ -9,28 +9,93 @@ interface RegionCardProps {
   onSelect: () => void
 }
 
-const regionIcons: Record<string, string> = {
-  costaDoDelta: '≈',
-  poloDasOrigens: '◬',
-  teresina: '⌾',
+const regionMeta: Record<
+  string,
+  {
+    pt: { label: string; summary: string; countLabel: string }
+    en: { label: string; summary: string; countLabel: string }
+    icon: string
+    accent: string
+  }
+> = {
+  costaDoDelta: {
+    pt: {
+      label: 'Costa do Delta',
+      summary: 'Belezas naturais do litoral piauiense, praias, dunas e mangues vivos.',
+      countLabel: '8 municipios',
+    },
+    en: {
+      label: 'Delta Coast',
+      summary: 'Natural beauty along the coast of Piaui, with beaches, dunes and living mangroves.',
+      countLabel: '8 municipalities',
+    },
+    icon: 'water',
+    accent: '#cbf7e6',
+  },
+  poloDasOrigens: {
+    pt: {
+      label: 'Serra da Capivara',
+      summary: 'Pre-historia, caatinga, sitios arqueologicos e parques naturais preservados.',
+      countLabel: '10 municipios',
+    },
+    en: {
+      label: 'Serra da Capivara',
+      summary: 'Prehistory, caatinga, archaeological sites and protected natural parks.',
+      countLabel: '10 municipalities',
+    },
+    icon: 'mountain',
+    accent: '#fff5b8',
+  },
+  teresina: {
+    pt: {
+      label: 'Cocais',
+      summary: 'Florestas de babacu, carnauba e a cultura das quebradeiras de coco.',
+      countLabel: '22 municipios',
+    },
+    en: {
+      label: 'Cocais',
+      summary: 'Babassu and carnauba forests, shaped by traditional coconut gatherers.',
+      countLabel: '22 municipalities',
+    },
+    icon: 'tree',
+    accent: '#e2ffd2',
+  },
+}
+
+function cleanText(text: string) {
+  if (!/[ÃÂ]|â[€™“”-]/.test(text)) return text
+
+  try {
+    const bytes = Uint8Array.from(text, (char) => char.charCodeAt(0))
+    return new TextDecoder('utf-8').decode(bytes)
+  } catch {
+    return text
+  }
 }
 
 export default function RegionCard({ region, isSelected, onSelect }: RegionCardProps) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const meta = regionMeta[region.id]
+  const lang = i18n.language === 'en' ? 'en' : 'pt'
+  const label = meta?.[lang].label ?? cleanText(t(region.nameKey)).replace('Polo ', '')
+  const summary = meta?.[lang].summary ?? cleanText(t(region.summaryKey))
+  const countLabel = meta?.[lang].countLabel ?? `${region.spots.length} ${lang === 'en' ? 'spots' : 'municipios'}`
+  const icon = meta?.icon ?? 'leaf'
+  const accent = meta?.accent ?? '#e2ffd2'
 
   return (
     <button
       className={`region-card ${isSelected ? 'selected' : ''}`}
       onClick={onSelect}
-      style={{ '--region-color': region.color } as CSSProperties}
+      style={{ '--region-color': region.color, '--region-accent': accent } as CSSProperties}
     >
-      <span className="region-icon" aria-hidden="true">{regionIcons[region.id] ?? '◆'}</span>
+      <span className={`region-icon region-icon-${icon}`} aria-hidden="true" />
       <span className="region-copy">
-        <strong>{t(region.nameKey).replace('Polo ', '')}</strong>
-        <span>{t(region.summaryKey)}</span>
-        <small>{region.spots.length} municípios</small>
+        <strong>{label}</strong>
+        <span>{summary}</span>
+        <small>{countLabel}</small>
       </span>
-      <span className="region-arrow" aria-hidden="true">›</span>
+      <span className="region-arrow" aria-hidden="true" />
     </button>
   )
 }
