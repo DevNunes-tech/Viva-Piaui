@@ -4,12 +4,13 @@ import MapView from './components/MapView'
 import CreativeEconomy from './components/CreativeEconomy'
 import ItineraryBuilder from './components/ItineraryBuilder'
 import InnovationLab from './components/InnovationLab'
+import InvestePiauiCulture from './components/InvestePiauiCulture'
 import LanguageToggle from './components/LanguageToggle'
 import { useTranslation } from 'react-i18next'
 import { recordPageVisit } from './lib/gamification'
 import './App.css'
 
-export type Page = 'home' | 'map' | 'creative' | 'itinerary' | 'lab'
+export type Page = 'home' | 'map' | 'creative' | 'itinerary' | 'lab' | 'invest'
 
 export default function App() {
   const { t } = useTranslation()
@@ -30,6 +31,7 @@ export default function App() {
     { page: 'map', label: t('nav.map'), icon: 'map' },
     { page: 'itinerary', label: t('nav.itinerary'), icon: 'route' },
     { page: 'creative', label: t('nav.creative'), icon: 'palette' },
+    { page: 'invest', label: t('nav.invest'), icon: 'invest' },
     { page: 'lab', label: t('nav.lab'), icon: 'lab' },
   ]
 
@@ -43,6 +45,8 @@ export default function App() {
         return <ItineraryBuilder />
       case 'lab':
         return <InnovationLab />
+      case 'invest':
+        return <InvestePiauiCulture onOpenMap={() => setCurrentPage('map')} />
       default:
         return (
           <TerritoryExplorer

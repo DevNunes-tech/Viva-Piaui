@@ -53,7 +53,8 @@ export const REGIONS: Territory[] = [
         lng: -41.7601,
         category: 'Turismo',
         summaryKey: 'spot.portoLuisCorreia.summary',
-        image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80',
+        image:
+          'https://commons.wikimedia.org/wiki/Special:FilePath/Praia_do_Coqueiro_-_Luis_Correia%2C_Piau%C3%AD%2C_Brasil_-_coqueiral.jpg?width=960',
       },
       {
         id: 'canyonRioPoti',

@@ -72,7 +72,6 @@ export default function ContributionForm({ onSubmitted }: ContributionFormProps)
       <button type="submit" className="btn-contribute-submit">
         {t('contribute.submit')}
       </button>
-      <p className="contribution-note">{t('contribute.note')}</p>
     </form>
   )
 }

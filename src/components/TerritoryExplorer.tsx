@@ -12,13 +12,8 @@ type TerritoryExplorerProps = {
   onCitySelect?: (cityId: string) => void
 }
 
-const featuredSpotIds = [
-  'deltaDoParnaiba',
-  'serraDaCapivara',
-  'canyonRioPoti',
-  'parque7Cidades',
-  'encontroRios',
-]
+/** Quatro pontos turísticos fixos no hero e na faixa de destaques. */
+const featuredSpotIds = ['deltaDoParnaiba', 'portoLuisCorreia', 'serraDaCapivara', 'canyonRioPoti'] as const
 
 type Lang = 'pt' | 'en'
 
@@ -220,11 +215,12 @@ const DEFAULT_BIOME_ID = 'caatinga'
 const BIOME_IDS = ['caatinga', 'cerrado', 'mataDosCocais', 'mataAtlantica'] as const
 type BiomeId = (typeof BIOME_IDS)[number]
 
+/** Fotos alinhadas ao território piauiense de cada bioma (Commons / referência regional). */
 const BIOME_IMAGES: Record<BiomeId, string> = {
-  caatinga: 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=800&q=80',
-  cerrado: 'https://images.unsplash.com/photo-1501854140801-50e872d3a0c8?w=800&q=80',
-  mataDosCocais: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=80',
-  mataAtlantica: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',
+  caatinga: 'https://commons.wikimedia.org/wiki/Special:FilePath/Serra_da_Capivara.jpg?width=960',
+  cerrado: 'https://commons.wikimedia.org/wiki/Special:FilePath/C%C3%A2nion_do_Rio_Poti_em_Crate%C3%BAs.jpg?width=960',
+  mataDosCocais: 'https://commons.wikimedia.org/wiki/Special:FilePath/Attalea_speciosa_-_Baba%C3%A7u.jpg?width=960',
+  mataAtlantica: 'https://commons.wikimedia.org/wiki/Special:FilePath/Delta_do_Parna%C3%ADba.jpg?width=960',
 }
 
 const BIOME_CITIES: Record<BiomeId, string[]> = {
@@ -247,6 +243,21 @@ function cleanText(text: string) {
   } catch {
     return text
   }
+}
+
+function stripAccents(s: string): string {
+  return s.normalize('NFD').replace(/\p{M}/gu, '')
+}
+
+/** Cidade em destaque para o botão "Conhecer" no hero. */
+function heroCityIdForSpot(spot: HighlightSpot): string {
+  const m = stripAccents(spot.municipality.toLowerCase())
+  if (m.includes('luis correia')) return 'luisCorreia'
+  if (m.includes('ilha grande')) return 'parnaiba'
+  if (m.includes('parnaiba')) return 'parnaiba'
+  if (m.includes('sao raimundo')) return 'saoRaimundoNonato'
+  if (m.includes('buriti')) return 'picos'
+  return 'teresina'
 }
 
 function scrollToElement(id: string) {
@@ -353,7 +364,7 @@ export default function TerritoryExplorer({ selectedCityId, onCitySelect }: Terr
 
   const selectedRegionData = REGIONS.find((region) => region.id === selectedRegion)
   const selectedBiome = biomes.find((biome) => biome.id === selectedBiomeId) ?? biomes[0]
-  const heroSpot = highlights[0]
+  const heroSpots = highlights.slice(0, 4)
   const selectedCityCopy = { ...selectedCity, ...cityCopy[selectedCity.id]?.[lang] }
 
   const selectCity = (cityId: string) => {
@@ -481,27 +492,40 @@ export default function TerritoryExplorer({ selectedCityId, onCitySelect }: Terr
           </dl>
         </div>
 
-        {heroSpot && (
-          <button className="hero-feature" type="button" onClick={() => selectSpot(heroSpot)}>
-            <img src={heroSpot.image} alt={cleanText(t(heroSpot.titleKey))} />
-            <div className="hero-dots" aria-hidden="true">
-              <span />
-              <span />
-              <span />
-              <span />
-            </div>
-            <div className="hero-feature-copy">
-              <span>{heroSpot.municipality}</span>
-              <h2>{cleanText(t(heroSpot.titleKey))}</h2>
-              <button
-                type="button"
-                className="hero-feature-cta"
-                onClick={() => selectCity('parnaiba')}
-              >
-                {lang === 'pt' ? 'Conhecer a cidade' : 'Discover the city'}
-              </button>
-            </div>
-          </button>
+        {heroSpots.length > 0 && (
+          <div className="hero-spots-grid" aria-label={copy.highlights}>
+            {heroSpots.map((spot) => (
+              <div key={spot.id} className="hero-spot-card">
+                <button type="button" className="hero-spot-main" onClick={() => selectSpot(spot)}>
+                  <img
+                    src={spot.image}
+                    alt={cleanText(t(spot.titleKey))}
+                    loading="lazy"
+                    decoding="async"
+                    onError={(e) => {
+                      const el = e.currentTarget
+                      if (el.dataset.fallback === '1') return
+                      el.dataset.fallback = '1'
+                      el.src =
+                        'https://commons.wikimedia.org/wiki/Special:FilePath/Delta_do_Parna%C3%ADba.jpg?width=720'
+                    }}
+                  />
+                  <div className="hero-spot-overlay" aria-hidden="true" />
+                  <div className="hero-spot-copy">
+                    <span>{spot.municipality}</span>
+                    <h2>{cleanText(t(spot.titleKey))}</h2>
+                  </div>
+                </button>
+                <button
+                  type="button"
+                  className="hero-spot-cta"
+                  onClick={() => selectCity(heroCityIdForSpot(spot))}
+                >
+                  {lang === 'pt' ? 'Conhecer a cidade' : 'Discover the city'}
+                </button>
+              </div>
+            ))}
+          </div>
         )}
       </section>
 
@@ -605,7 +629,19 @@ export default function TerritoryExplorer({ selectedCityId, onCitySelect }: Terr
 
         <div className="biome-grid">
           <article className="biome-card">
-            <img src={selectedBiome.image} alt={selectedBiome.title} />
+            <img
+              src={selectedBiome.image}
+              alt={selectedBiome.title}
+              loading="lazy"
+              decoding="async"
+              onError={(e) => {
+                const el = e.currentTarget
+                if (el.dataset.fallback === '1') return
+                el.dataset.fallback = '1'
+                el.src =
+                  'https://commons.wikimedia.org/wiki/Special:FilePath/Serra_da_Capivara.jpg?width=720'
+              }}
+            />
             <div className="biome-card-content">
               <h3>{selectedBiome.title}</h3>
               <p>{selectedBiome.description}</p>

@@ -90,7 +90,7 @@
   bottom: 0;
   z-index: 30;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 4px;
   width: 100%;
   margin: 0 auto;
@@ -209,6 +209,24 @@
 .nav-icon-lab::after {
   width: 16px;
   height: 3px;
+  border-radius: 999px;
+  background: currentColor;
+  bottom: 2px;
+}
+
+.nav-icon-invest::before {
+  width: 4px;
+  height: 14px;
+  border-radius: 1px;
+  background: currentColor;
+  left: 4px;
+  bottom: 3px;
+  box-shadow: 6px 3px 0 currentColor, 12px -2px 0 currentColor;
+}
+
+.nav-icon-invest::after {
+  width: 16px;
+  height: 2px;
   border-radius: 999px;
   background: currentColor;
   bottom: 2px;

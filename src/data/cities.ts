@@ -93,7 +93,8 @@ export const FEATURED_CITIES: CityHighlight[] = [
     nickname: 'Porto e praia do litoral piauiense',
     region: 'Litoral Piauiense',
     section: 'routes',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Porto_de_Lu%C3%ADs_Correia_-_Piau%C3%AD.jpg?width=900',
+    image:
+      'https://commons.wikimedia.org/wiki/Special:FilePath/Praia_do_Coqueiro_-_Luis_Correia%2C_Piau%C3%AD%2C_Brasil_-_coqueiral.jpg?width=960',
     summary: 'Cidade litorânea e porto histórico que serve de base para o litoral e o Delta do Parnaíba.',
     details:
       'Luís Correia oferece praias com ondas, trilhas de dunas e pesca artesanal, servindo como um dos principais acessos ao litoral piauiense e ao ecoturismo costeiro.',
