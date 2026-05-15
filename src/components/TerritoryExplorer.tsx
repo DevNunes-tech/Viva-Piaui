@@ -217,10 +217,10 @@ type BiomeId = (typeof BIOME_IDS)[number]
 
 /** Fotos alinhadas ao território piauiense de cada bioma (Commons / referência regional). */
 const BIOME_IMAGES: Record<BiomeId, string> = {
-  caatinga: 'https://commons.wikimedia.org/wiki/Special:FilePath/Serra_da_Capivara.jpg?width=960',
-  cerrado: 'https://commons.wikimedia.org/wiki/Special:FilePath/C%C3%A2nion_do_Rio_Poti_em_Crate%C3%BAs.jpg?width=960',
-  mataDosCocais: 'https://commons.wikimedia.org/wiki/Special:FilePath/Attalea_speciosa_-_Baba%C3%A7u.jpg?width=960',
-  mataAtlantica: 'https://commons.wikimedia.org/wiki/Special:FilePath/Delta_do_Parna%C3%ADba.jpg?width=960',
+  caatinga: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmflPSVKxN6pEhbwX3YTjCmeWxJpjPMHT4HQ&s',
+  cerrado: 'https://portalopiaui.com/hf-conteudo/uploads/posts/2023/06/12872_cerrado-veado1-jpg.jpg',
+  mataDosCocais: 'https://s5.static.brasilescola.uol.com.br/be/2022/02/palmeiras-carnauba-piaui.jpg',
+  mataAtlantica: 'https://conexaoplaneta.com.br/wp-content/uploads/2015/11/desmatamento-municipios-piaui-bahia-800.jpg',
 }
 
 const BIOME_CITIES: Record<BiomeId, string[]> = {
