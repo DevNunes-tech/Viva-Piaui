@@ -142,7 +142,7 @@ export async function fetchInvestFeed(signal?: AbortSignal): Promise<InvestFeedP
   }
 }
 
-function staticEventToDisplay(ev: InvestCultureEvent, lang: InvestFeedLocale, t: TFunction): InvestDisplayEvent {
+function staticEventToDisplay(ev: InvestCultureEvent, _lang: InvestFeedLocale, t: TFunction): InvestDisplayEvent {
   return {
     id: ev.id,
     title: t(ev.titleKey),
