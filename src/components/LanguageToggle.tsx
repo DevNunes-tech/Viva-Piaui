@@ -1,9 +1,7 @@
-import { useTranslation } from 'react-i18next'
+import i18n from 'i18next'
 import '../styles/LanguageToggle.css'
 
 export default function LanguageToggle() {
-  const { i18n } = useTranslation()
-
   const handleLanguageChange = () => {
     const newLang = i18n.language === 'pt' ? 'en' : 'pt'
     i18n.changeLanguage(newLang)

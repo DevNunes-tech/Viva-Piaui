@@ -53,7 +53,7 @@ export const REGIONS: Territory[] = [
         lng: -41.7601,
         category: 'Turismo',
         summaryKey: 'spot.portoLuisCorreia.summary',
-        image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Porto_de_Lu%C3%ADs_Correia_-_Piau%C3%AD_%282199179459%29.jpg?width=900',
+        image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80',
       },
       {
         id: 'canyonRioPoti',
@@ -139,7 +139,7 @@ export const REGIONS: Territory[] = [
         titleKey: 'creative.praiasGastronomia.title',
         descriptionKey: 'creative.praiasGastronomia.description',
         type: 'gastronomia',
-        image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Caju%C3%ADna_no_Piau%C3%AD%2C_Brasil.JPG?width=900',
+        image: 'https://caminhosmelevem.com/wp-content/uploads/2022/10/fortaleza-ceara-edit-12.jpg',
       },
     ],
   },
@@ -321,7 +321,7 @@ export const REGIONS: Territory[] = [
         titleKey: 'creative.economiaCriativaTeresina.title',
         descriptionKey: 'creative.economiaCriativaTeresina.description',
         type: 'evento',
-        image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Museu_do_Piau%C3%AD_46.jpg?width=900',
+        image: 'https://admin.pi.gov.br/uploads/Whats_App_Image_2024_04_01_at_10_20_54_AM_32fe704cb4.jpeg',
       },
       {
         id: 'festasPopulares',

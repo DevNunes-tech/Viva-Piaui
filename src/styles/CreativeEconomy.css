@@ -6,6 +6,23 @@
 
 .creative-header {
   margin-bottom: 34px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.creative-header-text {
+  max-width: 55%;
+}
+
+.creative-header-image {
+  width: min(320px, 100%);
+  height: 220px;
+  border-radius: 24px;
+  object-fit: cover;
+  box-shadow: 0 20px 50px rgba(36, 27, 24, 0.18);
+  flex-shrink: 0;
 }
 
 .creative-header h1 {
@@ -138,6 +155,15 @@
 
   .creative-grid {
     grid-template-columns: 1fr;
+  }
+
+  .creative-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .creative-header-text {
+    max-width: 100%;
   }
 
   .creative-modal-image {

@@ -183,23 +183,6 @@
   transform: rotate(135deg);
 }
 
-.nav-icon-spark::before {
-  width: 15px;
-  height: 15px;
-  border: 2px solid currentColor;
-  border-radius: 4px;
-  transform: rotate(18deg);
-}
-
-.nav-icon-spark::after {
-  width: 5px;
-  height: 5px;
-  border-top: 2px solid currentColor;
-  border-right: 2px solid currentColor;
-  right: 1px;
-  top: 1px;
-}
-
 .nav-icon-palette::before {
   width: 17px;
   height: 15px;
@@ -213,6 +196,22 @@
   border-radius: 50%;
   background: currentColor;
   box-shadow: -6px -2px 0 -1px currentColor, 2px -5px 0 -1px currentColor;
+}
+
+.nav-icon-lab::before {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 10px 0 0 currentColor, 5px 6px 0 -1px currentColor;
+}
+
+.nav-icon-lab::after {
+  width: 16px;
+  height: 3px;
+  border-radius: 999px;
+  background: currentColor;
+  bottom: 2px;
 }
 
 .nav-btn.active {

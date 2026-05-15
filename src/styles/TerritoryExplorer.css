@@ -256,6 +256,21 @@
   line-height: 1.05;
 }
 
+.hero-feature-cta {
+  margin-top: 18px;
+  padding: 0.9rem 1.3rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #065f3c;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.hero-feature-cta:hover {
+  background: #eff7e8;
+}
+
 .highlights-section,
 .territories-section,
 .cities-section {

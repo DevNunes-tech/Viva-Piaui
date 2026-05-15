@@ -88,6 +88,20 @@ export const FEATURED_CITIES: CityHighlight[] = [
     sourceUrl: 'https://commons.wikimedia.org/wiki/File:Delta_do_Parna%C3%ADba.jpg',
   },
   {
+    id: 'luisCorreia',
+    name: 'Luís Correia',
+    nickname: 'Porto e praia do litoral piauiense',
+    region: 'Litoral Piauiense',
+    section: 'routes',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Porto_de_Lu%C3%ADs_Correia_-_Piau%C3%AD.jpg?width=900',
+    summary: 'Cidade litorânea e porto histórico que serve de base para o litoral e o Delta do Parnaíba.',
+    details:
+      'Luís Correia oferece praias com ondas, trilhas de dunas e pesca artesanal, servindo como um dos principais acessos ao litoral piauiense e ao ecoturismo costeiro.',
+    tags: ['Litoral', 'Praias', 'Delta'],
+    sourceLabel: 'Turismo Piauí',
+    sourceUrl: 'https://turismo.pi.gov.br/',
+  },
+  {
     id: 'saoRaimundoNonato',
     name: 'São Raimundo Nonato',
     nickname: 'Portal da Serra da Capivara',

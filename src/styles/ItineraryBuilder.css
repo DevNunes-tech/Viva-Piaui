@@ -18,6 +18,66 @@
   font-size: 0.95rem;
 }
 
+.itinerary-interests {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.1rem;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(20, 92, 45, 0.12);
+  border-radius: 14px;
+}
+
+.itinerary-interests-title {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+  color: #1a2e1f;
+}
+
+.itinerary-interests-hint {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  color: #555;
+  line-height: 1.45;
+}
+
+.itinerary-interest-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 0.75rem;
+}
+
+.itinerary-interest-chip {
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid rgba(20, 92, 45, 0.22);
+  background: #fff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: #2a3d30;
+}
+
+.itinerary-interest-chip.active {
+  background: #087233;
+  border-color: #087233;
+  color: #f7fff1;
+}
+
+.btn-suggest-itinerary {
+  padding: 0.45rem 0.9rem;
+  border-radius: 10px;
+  border: 0;
+  background: #0b5c36;
+  color: #f7fff1;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.btn-suggest-itinerary:hover {
+  filter: brightness(1.06);
+}
+
 .filter-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -117,6 +177,27 @@
 
 .btn-primary:active {
   transform: translateY(0);
+}
+
+.route-suggestion {
+  margin-top: 1rem;
+  max-width: 720px;
+  text-align: left;
+  padding: 0.9rem 1rem;
+  background: #f7fbff;
+  border: 1px solid #d7e4ff;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.route-suggestion strong {
+  display: block;
+  color: #333;
+  margin-bottom: 0.25rem;
+}
+
+.route-suggestion span {
+  color: #555;
 }
 
 .route-preview {

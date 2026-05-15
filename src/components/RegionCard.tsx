@@ -75,8 +75,9 @@ function cleanText(text: string) {
 
 export default function RegionCard({ region, isSelected, onSelect }: RegionCardProps) {
   const { t, i18n } = useTranslation()
+  const locale = i18n.language
   const meta = regionMeta[region.id]
-  const lang = i18n.language === 'en' ? 'en' : 'pt'
+  const lang = locale === 'en' ? 'en' : 'pt'
   const label = meta?.[lang].label ?? cleanText(t(region.nameKey)).replace('Polo ', '')
   const summary = meta?.[lang].summary ?? cleanText(t(region.summaryKey))
   const countLabel = meta?.[lang].countLabel ?? `${region.spots.length} ${lang === 'en' ? 'spots' : 'municipios'}`

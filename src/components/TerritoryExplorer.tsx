@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CITY_SECTIONS, FEATURED_CITIES } from '../data/cities'
 import type { CityHighlight } from '../data/cities'
@@ -6,6 +6,11 @@ import { REGIONS } from '../data/regions'
 import type { Spot, Territory } from '../data/regions'
 import RegionCard from './RegionCard'
 import '../styles/TerritoryExplorer.css'
+
+type TerritoryExplorerProps = {
+  selectedCityId?: string | null
+  onCitySelect?: (cityId: string) => void
+}
 
 const featuredSpotIds = [
   'deltaDoParnaiba',
@@ -22,147 +27,13 @@ type HighlightSpot = Spot & {
   regionId: string
 }
 
-const pageCopy = {
-  pt: {
-    heroKicker: 'Guia ambiental e turistico',
-    heroTitle: 'Guia',
-    heroEmphasis: 'Piaui',
-    heroDescription:
-      'Descubra a diversidade cultural e natural do estado, dos cerrados ao delta, dos canions as carnaubas.',
-    searchPlaceholder: 'Buscar locais, biomas, frutos do Piaui...',
-    explore: 'Explorar',
-    stats: [
-      ['224', 'Municipios'],
-      ['11', 'Territorios'],
-      ['4', 'Biomas'],
-    ],
-    statsLabel: 'Resumo do Piaui',
-    naturalHeritage: 'Patrimonio natural',
-    highlights: 'Destaques',
-    viewAll: 'Ver todos',
-    sustainableRoutes: 'Roteiros sustentaveis',
-    territories: 'Explore por Territorios',
-    cultureEnvironment: 'Cultura e ambiente',
-    cities: 'Cidades para conhecer',
-    chooseCity: 'Escolha uma cidade',
-    source: 'Fonte',
-    biomeTitle: 'Quatro biomas, uma terra viva.',
-    biomeText:
-      'Caatinga, Cerrado, Mata dos Cocais e Mata Atlantica encontram-se aqui, moldando frutos como o buriti, o pequi, o caju e o umbu.',
-    biomeButton: 'Conheca os biomas',
-    selectedHighlight: 'Lugar selecionado',
-    selectedRegion: 'Territorio selecionado',
-    routeTip: 'Clique em um ponto para ver detalhes e montar seu roteiro ambiental.',
-    noSearchResult: 'Nao encontrei um resultado exato, mas trouxe a area de territorios para voce explorar.',
-    biomeSectionTitle: 'Biomas do Piauí',
-    biomeSectionSubtitle: 'Aprenda sobre a natureza, as paisagens e as cidades que vivem cada bioma.',
-    biomeCitiesTitle: 'Cidades no bioma',
-    ambientRegion: {
-      label: 'Vale do Sambito',
-      summary: 'Cerrado denso, cachoeiras escondidas e fauna exuberante.',
-      count: '14 municipios',
-      details:
-        'Um roteiro imaginado para conectar cerrado, agua doce, observacao de fauna e pequenas comunidades do interior.',
-    },
-  },
-  en: {
-    heroKicker: 'Environmental and travel guide',
-    heroTitle: 'Piaui',
-    heroEmphasis: 'Guide',
-    heroDescription:
-      'Discover the cultural and natural diversity of the state, from the cerrado to the delta, from canyons to carnauba palms.',
-    searchPlaceholder: 'Search places, biomes, fruits of Piaui...',
-    explore: 'Explore',
-    stats: [
-      ['224', 'Municipalities'],
-      ['11', 'Territories'],
-      ['4', 'Biomes'],
-    ],
-    statsLabel: 'Piaui overview',
-    naturalHeritage: 'Natural heritage',
-    highlights: 'Highlights',
-    viewAll: 'View all',
-    sustainableRoutes: 'Sustainable routes',
-    territories: 'Explore by Territory',
-    cultureEnvironment: 'Culture and environment',
-    cities: 'Cities to visit',
-    chooseCity: 'Choose a city',
-    source: 'Source',
-    biomeTitle: 'Four biomes, one living land.',
-    biomeText:
-      'Caatinga, Cerrado, Mata dos Cocais and Atlantic Forest meet here, shaping fruits such as buriti, pequi, cashew and umbu.',
-    biomeButton: 'Explore the biomes',
-    selectedHighlight: 'Selected place',
-    selectedRegion: 'Selected territory',
-    routeTip: 'Click a place to see details and shape your environmental route.',
-    noSearchResult: 'No exact result found, so I brought you to the territory area to explore.',
-    ambientRegion: {
-      label: 'Sambito Valley',
-      summary: 'Dense cerrado, hidden waterfalls and abundant wildlife.',
-      count: '14 municipalities',
-      details:
-        'A proposed route connecting cerrado landscapes, freshwater, wildlife watching and small inland communities.',
-    },
-    biomeSectionTitle: 'Piauí biomes',
-    biomeSectionSubtitle: 'Learn about the landscapes, species and cities that belong to each biome.',
-    biomeCitiesTitle: 'Cities in the biome',
-  },
-} as const
-
 type Biome = {
   id: string
   title: string
-  description: Record<Lang, string>
+  description: string
   image: string
   cities: string[]
 }
-
-const BIOMES: Biome[] = [
-  {
-    id: 'caatinga',
-    title: 'Caatinga',
-    description: {
-      pt: 'Bioma seco e resistente do sertão, com mandacarus, xique-xiques, umbuzeiros e uma flora adaptada à seca.',
-      en: 'A dry, resilient biome of the sertão, with mandacarus, xique-xiques, umbuzeiros and plants adapted to drought.',
-    },
-    image:
-      'https://upload.wikimedia.org/wikipedia/commons/b/bb/Vegeta%C3%A7%C3%A3o_da_Caatinga_no_Piau%C3%AD.jpg',
-    cities: ['São Raimundo Nonato', 'Oeiras', 'Piripiri'],
-  },
-  {
-    id: 'cerrado',
-    title: 'Cerrado',
-    description: {
-      pt: 'Savanas úmidas e veredas do centro do estado, onde o buriti, o pequi e os campos de altitude se destacam.',
-      en: 'Wet savannas and veredas in the state interior, where buriti, pequi and upland fields stand out.',
-    },
-    image:
-      'https://upload.wikimedia.org/wikipedia/commons/0/02/%C3%81rvore_seca_no_Cerrado.jpg',
-    cities: ['Teresina', 'Pedro II', 'Picos'],
-  },
-  {
-    id: 'mataDosCocais',
-    title: 'Mata dos Cocais',
-    description: {
-      pt: 'Área de transição entre cerrado e Amazônia, com babaçu, carnaúba e paisagens de coqueirais.',
-      en: 'A transition area between cerrado and Amazon, with babaçu, carnaúba palms and lush palm groves.',
-    },
-    image:
-      'https://upload.wikimedia.org/wikipedia/commons/e/ee/MatadosCocais.jpg',
-    cities: ['Parnaíba', 'Floriano', 'Piripiri'],
-  },
-  {
-    id: 'mataAtlantica',
-    title: 'Mata Atlântica',
-    description: {
-      pt: 'Trecho de floresta atlântica e manguezais no litoral, rico em biodiversidade e paisagens costaneiras.',
-      en: 'A stretch of Atlantic forest and mangroves on the coast, rich in biodiversity and coastal landscapes.',
-    },
-    image:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS0qzuUJOvzA3mjGhlzGS6FxQAmuQWwqidRg&s',
-    cities: ['Parnaíba', 'Luís Correia', 'Teresina'],
-  },
-]
 
 const cityCopy: Record<string, Record<Lang, Partial<CityHighlight>>> = {
   oeiras: {
@@ -344,20 +215,23 @@ const citySectionCopy: Record<string, Record<Lang, { title: string; description:
   },
 }
 
-const categoryCopy: Record<string, Record<Lang, string>> = {
-  Natureza: { pt: 'Natureza', en: 'Nature' },
-  Patrimonio: { pt: 'Patrimonio', en: 'Heritage' },
-  'PatrimÃ´nio': { pt: 'Patrimonio', en: 'Heritage' },
-  Arqueologia: { pt: 'Arqueologia', en: 'Archaeology' },
-  Parque: { pt: 'Parque', en: 'Park' },
-  Cultural: { pt: 'Cultural', en: 'Cultural' },
-  Turismo: { pt: 'Turismo', en: 'Tourism' },
-  Praia: { pt: 'Praia', en: 'Beach' },
-  Ecoturismo: { pt: 'Ecoturismo', en: 'Ecotourism' },
-  Mirante: { pt: 'Mirante', en: 'Viewpoint' },
-  Cachoeira: { pt: 'Cachoeira', en: 'Waterfall' },
-  Historico: { pt: 'Historico', en: 'Historic' },
-  'HistÃ³rico': { pt: 'Historico', en: 'Historic' },
+const DEFAULT_BIOME_ID = 'caatinga'
+
+const BIOME_IDS = ['caatinga', 'cerrado', 'mataDosCocais', 'mataAtlantica'] as const
+type BiomeId = (typeof BIOME_IDS)[number]
+
+const BIOME_IMAGES: Record<BiomeId, string> = {
+  caatinga: 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=800&q=80',
+  cerrado: 'https://images.unsplash.com/photo-1501854140801-50e872d3a0c8?w=800&q=80',
+  mataDosCocais: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=80',
+  mataAtlantica: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',
+}
+
+const BIOME_CITIES: Record<BiomeId, string[]> = {
+  caatinga: ['Sao Raimundo Nonato', 'Coronel Jose Dias', 'Caracol', 'Sao Goncalo'],
+  cerrado: ['Teresina', 'Picos', 'Oeiras', 'Floriano'],
+  mataDosCocais: ['Piripiri', 'Esperantina', 'Barras', 'Batalha'],
+  mataAtlantica: ['Parnaiba', 'Luis Correia', 'Cajueiro da Praia', 'Ilha Grande'],
 }
 
 function isHighlightSpot(spot: HighlightSpot | undefined): spot is HighlightSpot {
@@ -381,20 +255,87 @@ function scrollToElement(id: string) {
   }, 50)
 }
 
-function translateCategory(category: string, lang: Lang) {
-  return categoryCopy[category]?.[lang] ?? cleanText(category)
+function translateCategory(category: string, translateFn: (key: string) => string) {
+  const base = cleanText(category)
+  const key = `category.${base}`
+  const translated = translateFn(key)
+  return translated === key ? base : translated
 }
 
-export default function TerritoryExplorer() {
+export default function TerritoryExplorer({ selectedCityId, onCitySelect }: TerritoryExplorerProps) {
   const { t, i18n } = useTranslation()
   const lang: Lang = i18n.language === 'en' ? 'en' : 'pt'
-  const copy = pageCopy[lang]
+
+  const copy = useMemo(() => {
+    const statsRaw = t('territoryExplorer.stats', { returnObjects: true })
+    const ambientRaw = t('territoryExplorer.ambientRegion', { returnObjects: true })
+    const ambientRegion = ambientRaw as {
+      label: string
+      summary: string
+      count: string
+      details: string
+    }
+    const stats = (Array.isArray(statsRaw) ? statsRaw : []) as [string, string][]
+
+    return {
+      heroKicker: t('territoryExplorer.heroKicker'),
+      heroTitle: t('territoryExplorer.heroTitle'),
+      heroEmphasis: t('territoryExplorer.heroEmphasis'),
+      heroDescription: t('territoryExplorer.heroDescription'),
+      searchPlaceholder: t('territoryExplorer.searchPlaceholder'),
+      explore: t('territoryExplorer.explore'),
+      stats,
+      statsLabel: t('territoryExplorer.statsLabel'),
+      naturalHeritage: t('territoryExplorer.naturalHeritage'),
+      highlights: t('territoryExplorer.highlights'),
+      viewAll: t('territoryExplorer.viewAll'),
+      sustainableRoutes: t('territoryExplorer.sustainableRoutes'),
+      territories: t('territoryExplorer.territories'),
+      cultureEnvironment: t('territoryExplorer.cultureEnvironment'),
+      cities: t('territoryExplorer.cities'),
+      chooseCity: t('territoryExplorer.chooseCity'),
+      source: t('territoryExplorer.source'),
+      biomeTitle: t('territoryExplorer.biomeTitle'),
+      biomeText: t('territoryExplorer.biomeText'),
+      biomeButton: t('territoryExplorer.biomeButton'),
+      biomeSectionTitle: t('territoryExplorer.biomeSectionTitle'),
+      biomeSectionSubtitle: t('territoryExplorer.biomeSectionSubtitle'),
+      biomeCitiesTitle: t('territoryExplorer.biomeCitiesTitle'),
+      selectedHighlight: t('territoryExplorer.selectedHighlight'),
+      selectedRegion: t('territoryExplorer.selectedRegion'),
+      routeTip: t('territoryExplorer.routeTip'),
+      noSearchResult: t('territoryExplorer.noSearchResult'),
+      ambientRegion,
+    }
+  }, [t, i18n.language])
+
+  const biomes = useMemo<Biome[]>(
+    () =>
+      BIOME_IDS.map((id) => ({
+        id,
+        title: t(`biome.${id}.title`),
+        description: t(`biome.${id}.description`),
+        image: BIOME_IMAGES[id],
+        cities: BIOME_CITIES[id],
+      })),
+    [t],
+  )
+
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null)
   const [selectedSpot, setSelectedSpot] = useState<HighlightSpot | null>(null)
   const [selectedCity, setSelectedCity] = useState<CityHighlight>(FEATURED_CITIES[0])
-  const [selectedBiomeId, setSelectedBiomeId] = useState(BIOMES[0].id)
+  const [selectedBiomeId, setSelectedBiomeId] = useState(DEFAULT_BIOME_ID)
   const [searchQuery, setSearchQuery] = useState('')
   const [searchMessage, setSearchMessage] = useState('')
+
+  useEffect(() => {
+    if (!selectedCityId) return
+    const city = FEATURED_CITIES.find((item) => item.id === selectedCityId)
+    if (city) {
+      setSelectedCity(city)
+      scrollToElement('cidades')
+    }
+  }, [selectedCityId])
 
   const highlights = useMemo(() => {
     const spots = REGIONS.flatMap((region) =>
@@ -411,9 +352,18 @@ export default function TerritoryExplorer() {
   }, [])
 
   const selectedRegionData = REGIONS.find((region) => region.id === selectedRegion)
-  const selectedBiome = BIOMES.find((biome) => biome.id === selectedBiomeId) ?? BIOMES[0]
+  const selectedBiome = biomes.find((biome) => biome.id === selectedBiomeId) ?? biomes[0]
   const heroSpot = highlights[0]
   const selectedCityCopy = { ...selectedCity, ...cityCopy[selectedCity.id]?.[lang] }
+
+  const selectCity = (cityId: string) => {
+    const city = FEATURED_CITIES.find((item) => item.id === cityId)
+    if (city) {
+      setSelectedCity(city)
+      if (onCitySelect) onCitySelect(cityId)
+      scrollToElement('cidades')
+    }
+  }
 
   const selectSpot = (spot: HighlightSpot) => {
     setSelectedSpot(spot)
@@ -428,7 +378,7 @@ export default function TerritoryExplorer() {
   }
 
   const handleShowBiomes = () => {
-    setSelectedBiomeId(BIOMES[0].id)
+    setSelectedBiomeId(DEFAULT_BIOME_ID)
     scrollToElement('biomes')
   }
 
@@ -522,7 +472,7 @@ export default function TerritoryExplorer() {
           {searchMessage && <p className="search-message">{searchMessage}</p>}
 
           <dl className="hero-stats" aria-label={copy.statsLabel}>
-            {copy.stats.map(([value, label]) => (
+            {copy.stats.map(([value, label]: [string, string]) => (
               <div key={label}>
                 <dt>{value}</dt>
                 <dd>{label}</dd>
@@ -543,6 +493,13 @@ export default function TerritoryExplorer() {
             <div className="hero-feature-copy">
               <span>{heroSpot.municipality}</span>
               <h2>{cleanText(t(heroSpot.titleKey))}</h2>
+              <button
+                type="button"
+                className="hero-feature-cta"
+                onClick={() => selectCity('parnaiba')}
+              >
+                {lang === 'pt' ? 'Conhecer a cidade' : 'Discover the city'}
+              </button>
             </div>
           </button>
         )}
@@ -582,7 +539,7 @@ export default function TerritoryExplorer() {
             <span>{copy.selectedHighlight}</span>
             <h2>{cleanText(t(selectedSpot.titleKey))}</h2>
             <p>{cleanText(t(selectedSpot.summaryKey))}</p>
-            <small>{selectedSpot.municipality} · {translateCategory(selectedSpot.category, lang)}</small>
+            <small>{selectedSpot.municipality} · {translateCategory(selectedSpot.category, t)}</small>
           </div>
         </section>
       )}
@@ -634,7 +591,7 @@ export default function TerritoryExplorer() {
         <p className="biome-subtitle">{copy.biomeSectionSubtitle}</p>
 
         <div className="biome-tab-row" role="tablist" aria-label={copy.biomeSectionTitle}>
-          {BIOMES.map((biome) => (
+          {biomes.map((biome) => (
             <button
               key={biome.id}
               type="button"
@@ -651,11 +608,11 @@ export default function TerritoryExplorer() {
             <img src={selectedBiome.image} alt={selectedBiome.title} />
             <div className="biome-card-content">
               <h3>{selectedBiome.title}</h3>
-              <p>{selectedBiome.description[lang]}</p>
+              <p>{selectedBiome.description}</p>
               <div className="biome-city-list">
                 <strong>{copy.biomeCitiesTitle}</strong>
                 <div>
-                  {selectedBiome.cities.map((city) => (
+                  {selectedBiome.cities.map((city: string) => (
                     <span key={city}>{city}</span>
                   ))}
                 </div>
@@ -680,7 +637,7 @@ export default function TerritoryExplorer() {
               <button
                 key={city.id}
                 className={`city-name-btn ${selectedCity.id === city.id ? 'active' : ''}`}
-                onClick={() => setSelectedCity(city)}
+                onClick={() => selectCity(city.id)}
               >
                 {translatedCity.name}
               </button>
@@ -717,7 +674,7 @@ export default function TerritoryExplorer() {
                 <p>{translatedSection.description}</p>
                 <div>
                   {cities.map((city) => (
-                    <button key={city.id} onClick={() => setSelectedCity(city)}>
+                    <button key={city.id} onClick={() => selectCity(city.id)}>
                       {(cityCopy[city.id]?.[lang]?.name as string | undefined) ?? city.name}
                     </button>
                   ))}

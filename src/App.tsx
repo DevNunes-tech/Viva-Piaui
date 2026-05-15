@@ -1,39 +1,55 @@
-import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useEffect, useState } from 'react'
 import TerritoryExplorer from './components/TerritoryExplorer'
 import MapView from './components/MapView'
-import ARSimulator from './components/ARSimulator'
 import CreativeEconomy from './components/CreativeEconomy'
 import ItineraryBuilder from './components/ItineraryBuilder'
+import InnovationLab from './components/InnovationLab'
 import LanguageToggle from './components/LanguageToggle'
+import { useTranslation } from 'react-i18next'
+import { recordPageVisit } from './lib/gamification'
 import './App.css'
 
-export type Page = 'home' | 'map' | 'ar' | 'creative' | 'itinerary'
+export type Page = 'home' | 'map' | 'creative' | 'itinerary' | 'lab'
 
 export default function App() {
   const { t } = useTranslation()
   const [currentPage, setCurrentPage] = useState<Page>('home')
+  const [selectedCityId, setSelectedCityId] = useState<string | null>(null)
+
+  useEffect(() => {
+    recordPageVisit(currentPage)
+  }, [currentPage])
+
+  const navigateToCity = (cityId: string) => {
+    setSelectedCityId(cityId)
+    setCurrentPage('home')
+  }
 
   const navItems: { page: Page; label: string; icon: string }[] = [
     { page: 'home', label: t('nav.home'), icon: 'home' },
     { page: 'map', label: t('nav.map'), icon: 'map' },
     { page: 'itinerary', label: t('nav.itinerary'), icon: 'route' },
-    { page: 'ar', label: t('nav.ar'), icon: 'spark' },
     { page: 'creative', label: t('nav.creative'), icon: 'palette' },
+    { page: 'lab', label: t('nav.lab'), icon: 'lab' },
   ]
 
   const renderPage = () => {
     switch (currentPage) {
       case 'map':
-        return <MapView />
-      case 'ar':
-        return <ARSimulator />
+        return <MapView onCityChoose={navigateToCity} />
       case 'creative':
         return <CreativeEconomy />
       case 'itinerary':
         return <ItineraryBuilder />
+      case 'lab':
+        return <InnovationLab />
       default:
-        return <TerritoryExplorer />
+        return (
+          <TerritoryExplorer
+            selectedCityId={selectedCityId}
+            onCitySelect={(cityId) => setSelectedCityId(cityId)}
+          />
+        )
     }
   }
 

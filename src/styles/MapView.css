@@ -29,6 +29,24 @@
   color: #333;
 }
 
+.map-city-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.75rem;
+  padding: 0.55rem 0.9rem;
+  border: 0;
+  border-radius: 999px;
+  background: #005c54;
+  color: #fff;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.map-city-action:hover {
+  background: #0a6f64;
+}
+
 .popup-content p {
   margin: 0.3rem 0;
   font-size: 0.9rem;

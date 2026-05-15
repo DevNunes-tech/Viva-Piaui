@@ -10,21 +10,24 @@ type SelectedCreative = {
   region: Territory
 }
 
-const typeLabels: Record<NonNullable<CreativeItem['type']>, string> = {
-  artesanato: 'Artesanato',
-  gastronomia: 'Gastronomia',
-  evento: 'Evento cultural',
+const typeLabels: Record<NonNullable<CreativeItem['type']>, { pt: string; en: string }> = {
+  artesanato: { pt: 'Artesanato', en: 'Craft' },
+  gastronomia: { pt: 'Gastronomia', en: 'Gastronomy' },
+  evento: { pt: 'Evento cultural', en: 'Cultural event' },
 }
 
 export default function CreativeEconomy() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const locale = i18n.language
   const [selectedCreative, setSelectedCreative] = useState<SelectedCreative | null>(null)
 
   return (
     <div className="creative-economy">
       <div className="creative-header">
-        <h1>{t('nav.creative')}</h1>
-        <p>{t('creative.subtitle')}</p>
+        <div className="creative-header-text">
+          <h1>{t('nav.creative')}</h1>
+          <p>{t('creative.subtitle')}</p>
+        </div>
       </div>
 
       <div className="regions-showcase">
@@ -66,14 +69,12 @@ export default function CreativeEconomy() {
             )}
             <div className="creative-modal-content">
               <span className="creative-modal-kicker" style={{ color: selectedCreative.region.color }}>
-                {selectedCreative.item.type ? typeLabels[selectedCreative.item.type] : t(selectedCreative.region.nameKey)}
+                {selectedCreative.item.type
+                  ? typeLabels[selectedCreative.item.type][locale === 'en' ? 'en' : 'pt']
+                  : t(selectedCreative.region.nameKey)}
               </span>
               <h2 id="creative-modal-title">{t(selectedCreative.item.titleKey)}</h2>
               <p>{t(selectedCreative.item.descriptionKey)}</p>
-              <div className="creative-modal-info">
-                <strong>{t(selectedCreative.region.nameKey)}</strong>
-                <span>{t(selectedCreative.region.summaryKey)}</span>
-              </div>
             </div>
           </article>
         </div>

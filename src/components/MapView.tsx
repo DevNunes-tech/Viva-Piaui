@@ -1,12 +1,17 @@
 import { useEffect, useState } from 'react'
 import { MapContainer, TileLayer, Marker, Popup, CircleMarker, GeoJSON } from 'react-leaflet'
-import { useTranslation } from 'react-i18next'
 import { Icon } from 'leaflet'
 import type { Layer } from 'leaflet'
 import type { Feature, GeoJsonObject, Geometry } from 'geojson'
 import 'leaflet/dist/leaflet.css'
 import { REGIONS } from '../data/regions'
+import { FEATURED_CITIES } from '../data/cities'
+import { useTranslation } from 'react-i18next'
 import '../styles/MapView.css'
+
+type MapViewProps = {
+  onCityChoose: (cityId: string) => void
+}
 
 type MunicipioProperties = {
   NM_MUN?: string
@@ -23,7 +28,7 @@ const DefaultIcon = new Icon({
   shadowSize: [41, 41],
 })
 
-export default function MapView() {
+export default function MapView({ onCityChoose }: MapViewProps) {
   const { t } = useTranslation()
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null)
   const [municipiosData, setMunicipiosData] = useState<GeoJsonObject | null>(null)
@@ -79,17 +84,32 @@ export default function MapView() {
         )}
 
         {REGIONS.map((region) =>
-          region.spots.map((spot) => (
-            <Marker key={spot.id} position={[spot.lat, spot.lng]} icon={DefaultIcon}>
-              <Popup>
-                <div className="popup-content">
-                  <h4>{t(spot.titleKey)}</h4>
-                  <p><strong>{spot.municipality}</strong></p>
-                  <p>{t(spot.summaryKey)}</p>
-                </div>
-              </Popup>
-            </Marker>
-          ))
+          region.spots.map((spot) => {
+            const cityMatch = FEATURED_CITIES.find(
+              (city) => city.name.toLowerCase() === spot.municipality.toLowerCase(),
+            )
+
+            return (
+              <Marker key={spot.id} position={[spot.lat, spot.lng]} icon={DefaultIcon}>
+                <Popup>
+                  <div className="popup-content">
+                    <h4>{t(spot.titleKey)}</h4>
+                    <p><strong>{spot.municipality}</strong></p>
+                    <p>{t(spot.summaryKey)}</p>
+                    {cityMatch && (
+                      <button
+                        type="button"
+                        className="map-city-action"
+                        onClick={() => onCityChoose(cityMatch.id)}
+                      >
+                        {t('map.exploreCity')}
+                      </button>
+                    )}
+                  </div>
+                </Popup>
+              </Marker>
+            )
+          })
         )}
       </MapContainer>
     </div>

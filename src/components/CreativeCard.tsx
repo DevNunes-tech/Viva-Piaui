@@ -9,14 +9,15 @@ interface CreativeCardProps {
   onViewMore: () => void
 }
 
-const typeLabels: Record<NonNullable<CreativeItem['type']>, string> = {
-  artesanato: 'Artesanato',
-  gastronomia: 'Gastronomia',
-  evento: 'Evento',
+const typeLabels: Record<NonNullable<CreativeItem['type']>, { pt: string; en: string }> = {
+  artesanato: { pt: 'Artesanato', en: 'Craft' },
+  gastronomia: { pt: 'Gastronomia', en: 'Gastronomy' },
+  evento: { pt: 'Evento', en: 'Event' },
 }
 
 export default function CreativeCard({ item, regionColor, onViewMore }: CreativeCardProps) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const locale = i18n.language
 
   return (
     <article className="creative-card" style={{ '--creative-color': regionColor } as CSSProperties}>
@@ -24,7 +25,11 @@ export default function CreativeCard({ item, regionColor, onViewMore }: Creative
         <img className="creative-card-image" src={item.image} alt={t(item.titleKey)} />
       )}
       <div className="creative-card-body">
-        {item.type && <span className="creative-card-type">{typeLabels[item.type]}</span>}
+        {item.type && (
+          <span className="creative-card-type">
+            {typeLabels[item.type][locale === 'en' ? 'en' : 'pt']}
+          </span>
+        )}
         <h3>{t(item.titleKey)}</h3>
         <p>{t(item.descriptionKey)}</p>
         <button className="view-more-btn" onClick={onViewMore}>
